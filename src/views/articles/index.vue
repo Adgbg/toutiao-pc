@@ -22,37 +22,37 @@
           <div class="block">
             <span class="demonstration"></span>
             <el-date-picker
-              v-model="dateArr"
-              type="daterange"
+              @change="changeData"
+              end-placeholder="结束日期"
               range-separator="至"
               start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              @change="changeData"
+              type="daterange"
+              v-model="dateArr"
               value-format="yyyy-MM-dd"
             >></el-date-picker>
           </div>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="filter">筛选</el-button>
+          <el-button @click="filter" type="primary">筛选</el-button>
         </el-form-item>
       </el-form>
     </el-card>
     <el-card style="margin-top:20px">
-      <div slot="header" class="clearfix">
+      <div class="clearfix" slot="header">
         <span>根据筛选条件共查询到{{amount}}条结果:</span>
       </div>
       <el-table :data="options" stripe style="width: 100%">
         <el-table-column label="封面">
           <template slot-scope="scope">
-            <el-image style="width: 100px; height: 100px" :src="scope.row.cover.images[0]">
-              <div slot="error" class="image-slot">
-                <img src="../../assets/error.gif" alt width="100" height="100" />
+            <el-image :src="scope.row.cover.images[0]" style="width: 100px; height: 100px">
+              <div class="image-slot" slot="error">
+                <img alt height="100" src="../../assets/error.gif" width="100" />
               </div>
             </el-image>
           </template>
         </el-table-column>
-        <el-table-column prop="title" label="标题"></el-table-column>
-        <el-table-column prop label="状态">
+        <el-table-column label="标题" prop="title"></el-table-column>
+        <el-table-column label="状态" prop>
           <template slot-scope="scope">
             <el-tag type="info" v-if="scope.row.status===0">草稿</el-tag>
             <el-tag v-if="scope.row.status===1">待审核</el-tag>
@@ -61,22 +61,22 @@
             <el-tag type="danger" v-if="scope.row.status===4">已删除</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="pubdate" label="发布时间"></el-table-column>
+        <el-table-column label="发布时间" prop="pubdate"></el-table-column>
 
-        <el-table-column prop label="操作" width="160">
+        <el-table-column label="操作" prop width="160">
           <template scope="scope">
-            <el-button type="primary" icon="el-icon-edit" circle @click="redact(scope.row.id)"></el-button>
-            <el-button type="danger" icon="el-icon-delete" circle @click="delTarget(scope.row.id)"></el-button>
+            <el-button @click="redact(scope.row.id)" circle icon="el-icon-edit" type="primary"></el-button>
+            <el-button @click="delTarget(scope.row.id)" circle icon="el-icon-delete" type="danger"></el-button>
           </template>
         </el-table-column>
       </el-table>
       <el-pagination
+        :current-page="reqParams.page"
+        :page-size="reqParams.per_page"
+        :total="amount"
+        @current-change="pages"
         background
         layout="prev, pager, next"
-        :total="amount"
-        :page-size="reqParams.per_page"
-        :current-page="reqParams.page"
-        @current-change="pages"
       ></el-pagination>
     </el-card>
   </div>
@@ -92,7 +92,7 @@ export default {
         begin_pubdate: null,
         end_pubdate: null,
         // 页数
-        page: 4,
+        page: 1,
         // 每页请求的个数
         per_page: 20
       },

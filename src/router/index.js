@@ -8,8 +8,11 @@ import Cannot from '@/views/404'
 import Aticles from '@/views/articles'
 // 素材管理
 import Material from '@/views/material'
+// 发布文章
+import Publish from '@/views/publish'
 import local from '@/utils/local'
-
+import User from '@/views/user'
+import Comment from '@/views/comment'
 Vue.use(VueRouter)
 
 const router = new VueRouter({
@@ -32,6 +35,17 @@ const router = new VueRouter({
         {
           path: '/material',
           component: Material
+        },
+        {
+          path: '/publish',
+          component: Publish
+        }, {
+          path: '/user',
+          component: User
+        },
+        {
+          path: '/comment',
+          component: Comment
         }
       ]
     },

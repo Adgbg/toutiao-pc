@@ -1,7 +1,7 @@
 <template>
   <!-- 不可改变 -->
-  <el-select :value="value" placeholder="请选择" clearable @change="fn">
-    <el-option v-for="item in channel" :key="item.id" :label="item.name" :value="item.id"></el-option>
+  <el-select :value="value" @change="fn" clearable placeholder="请选择">
+    <el-option :key="item.id" :label="item.name" :value="item.id" v-for="item in channel"></el-option>
   </el-select>
 </template>
 
@@ -23,7 +23,6 @@ export default {
         data: { data }
       } = await this.$http.get('channels')
       this.channel = data.channels
-      console.log(data)
     },
     // 频道改变函数  传参子传父
     fn (id) {
